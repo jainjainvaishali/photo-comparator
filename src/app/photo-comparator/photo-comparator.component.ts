@@ -10,12 +10,12 @@ import {Subscription} from "rxjs";
 export class PhotoComparatorComponent implements OnInit, OnDestroy {
   public photos: any = [];
   public comparisonTable: any = [];
-  public photos$: Subscription;
+  public photos$: any;
 
-  constructor(private http: HttpClient) {
-  }
+  constructor(private http: HttpClient) {}
 
   ngOnInit(): void {
+    this.photos$ = Subscription;
     this.getPhotos(1);
   }
 

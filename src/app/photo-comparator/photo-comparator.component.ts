@@ -1,14 +1,16 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, OnDestroy, OnInit} from '@angular/core';
 import {HttpClient} from "@angular/common/http";
+import {Subscription} from "rxjs";
 
 @Component({
   selector: 'app-photo-comparator',
   templateUrl: './photo-comparator.component.html',
   styleUrls: ['./photo-comparator.component.css']
 })
-export class PhotoComparatorComponent implements OnInit {
+export class PhotoComparatorComponent implements OnInit, OnDestroy {
   public photos: any = [];
   public comparisonTable: any = [];
+  public photos$: Subscription;
 
   constructor(private http: HttpClient) {
   }
@@ -22,9 +24,8 @@ export class PhotoComparatorComponent implements OnInit {
    * @param albumId
    */
   getPhotos(albumId: number) {
-    this.http.get(`https://jsonplaceholder.typicode.com/photos?albumId=${albumId}`).subscribe(data => {
+    this.photos$ = this.http.get(`https://jsonplaceholder.typicode.com/photos?albumId=${albumId}`).subscribe((data: any) => {
       this.photos = data;
-      console.log(this.photos, 'p');
       for (let i = 0; i < this.photos.length; i++) {
         this.photos[i].remove = false;
       }
@@ -55,6 +56,15 @@ export class PhotoComparatorComponent implements OnInit {
       if (this.comparisonTable[i].id === id) {
         this.comparisonTable.splice(i, 1);
       }
+    }
+  }
+
+  /**
+   * Clean up
+   */
+  ngOnDestroy() {
+    if(this.photos$) {
+      this.photos$.unsubscribe();
     }
   }
 

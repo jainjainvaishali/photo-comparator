@@ -1,0 +1,37 @@
+<div class="row">
+  <div class="column alignment grids" *ngFor="let photo of photos">
+    <img src={{photo.url}} width="200" class="borders"/>
+    <div>Title: {{photo.title}}</div>
+    <div>ID: {{photo.id}}</div>
+    <div>URL: {{photo.url}}</div>
+    <button class="compare-button" (click)="comparePhoto(photo, photo.id)" *ngIf="photo.remove === false">Compare
+    </button>
+    <button class="remove-button" (click)="removePhoto(photo.id)" *ngIf="photo.remove === true">Remove</button>
+  </div>
+</div>
+<hr>
+<div>
+  <table>
+    <caption>Comparison Table</caption>
+    <thead>
+    <tr>
+      <th colspan="4">Comparison Table</th>
+    </tr>
+    <tr>
+      <th></th>
+      <th>ID</th>
+      <th>URL</th>
+      <th>Title</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr *ngFor="let comparison of comparisonTable;  let i=index">
+      <td>Photo {{i + 1}}</td>
+      <td>{{comparison.id}}</td>
+      <td>{{comparison.url}}</td>
+      <td>{{comparison.title}}</td>
+    </tr>
+    </tbody>
+  </table>
+</div>
+
